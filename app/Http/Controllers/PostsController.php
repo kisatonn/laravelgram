@@ -10,6 +10,11 @@ use Illuminate\Http\Request;
 
 class PostsController extends Controller
 {
+    public function __construct()
+    {
+          // ログインしていなかったらログインページに遷移する（この処理を消すとログインしなくてもページを表示する）
+        $this->middleware('auth');
+    }
     public function index()
   {
         // テンプレート「post/index.blade.php」を表示します。
@@ -19,7 +24,7 @@ class PostsController extends Controller
     {
          // テンプレート「post/new.blade.php」を表示します。
         return view('post/new');
-        
+
     }
   public function store(Request $request)
     {
@@ -38,9 +43,9 @@ class PostsController extends Controller
         $post->user_id = Auth::user()->id;
 
         $post->save();
-        
+
         $request->photo->storeAs('public/post_images', $post->id . '.jpg');
-        
+
         // 「/」 ルートにリダイレクト
         return redirect('/');
     }
