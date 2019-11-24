@@ -17,8 +17,12 @@ class PostsController extends Controller
     }
     public function index()
   {
-        // テンプレート「post/index.blade.php」を表示します。
-        return view('post/index');
+      $posts = Post::where('user_id', Auth::user()->id)
+          ->limit(10)
+          ->orderBy('created_at', 'desc')
+          ->get();
+
+          return view('post/index', ['posts' => $posts]);
   }
   public function new()
     {
@@ -47,6 +51,12 @@ class PostsController extends Controller
         $request->photo->storeAs('public/post_images', $post->id . '.jpg');
 
         // 「/」 ルートにリダイレクト
+        return redirect('/');
+    }
+    public function destroy($post_id)
+    {
+        $post = Post::find($post_id);
+        $post->delete();
         return redirect('/');
     }
 }

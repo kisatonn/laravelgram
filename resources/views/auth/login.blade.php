@@ -19,7 +19,7 @@
         </div>
 
         <div class="actions">
-          <input id="password" type="password" class="form-control" name="password" placeholder="パスワード" required>
+          <input type="submit" name="commit" value="サインインする" class="btn btn-primary w-100">
         </div>
       </form>
 
